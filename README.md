@@ -2,7 +2,7 @@
 
 ## Overview
 
-FinanceZero is a mobile application designed to help you effortlessly track your personal finances. It allows you to record income and expenses using either voice or text input, and it intelligently processes this information to provide you with a clear overview of your financial activity.
+**FinanceZero** is a mobile application designed to help you effortlessly track your personal finances. It allows you to record income and expenses using either voice or text input, and it intelligently processes this information to provide you with a clear overview of your financial activity.
 
 ## Features
 
