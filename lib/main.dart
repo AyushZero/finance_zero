@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
 
 const String entriesBoxName = 'financeEntries';
 
@@ -53,7 +51,7 @@ class _TrackerHomePageState extends State<TrackerHomePage> {
   bool _isAnalyzing = false;
   String? _analysisError;
 
-  final String? _apiKey = const String.fromEnvironment('GEMINI_API_KEY');
+  final String _apiKey = const String.fromEnvironment('GEMINI_API_KEY');
 
   @override
   void initState() {
@@ -161,15 +159,17 @@ class _TrackerHomePageState extends State<TrackerHomePage> {
         FocusScope.of(context).unfocus();
       } catch (e) {
         print("Error adding entry to Hive: $e");
-        if(mounted) ScaffoldMessenger.of(context).showSnackBar(
+        if(mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error saving entry: $e')),
         );
+        }
       }
     }
   }
 
   Future<void> _analyzeEntriesWithGemini() async {
-    if (_apiKey == null || _apiKey!.isEmpty) {
+    if (_apiKey.isEmpty) {
       setState(() {
         _analysisError = "API Key not configured. Use --dart-define=GEMINI_API_KEY=YOUR_KEY";
       });
@@ -213,7 +213,7 @@ JSON Output:
     print("Sending prompt to Gemini:\n$prompt");
 
     try {
-      final model = GenerativeModel(model: 'gemini-1.5-flash-latest', apiKey: _apiKey!);
+      final model = GenerativeModel(model: 'gemini-1.5-flash-latest', apiKey: _apiKey);
       final content = [Content.text(prompt)];
       final response = await model.generateContent(content);
 
@@ -384,7 +384,7 @@ JSON Output:
   Widget _buildInputArea() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
-      color: Theme.of(context).colorScheme.surfaceVariant,
+      color: Theme.of(context).colorScheme.surfaceContainerHighest,
       child: Row(
         children: <Widget>[
           Expanded(
