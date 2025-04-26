@@ -87,8 +87,8 @@ class _TrackerHomePageState extends State<TrackerHomePage> {
       listenFor: const Duration(seconds: 30), // Max duration to listen
       pauseFor: const Duration(seconds: 3),   // Time after speech stops before ending
       localeId: "en_US", // Example locale, adjust as needed
-      SpeechListenOptions.cancelOnError: true,
-      SpeechListenOptions.partialResults: true, // Get intermediate results
+      cancelOnError: true,
+      partialResults: true, // Get intermediate results
     );
     setState(() {
       _isListening = true;
