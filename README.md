@@ -2,98 +2,105 @@
 
 ## Overview
 
-**_FinanceZero_** is a mobile application designed to help you effortlessly track your personal finances. It allows you to record income and expenses using either voice or text input, and it intelligently processes this information to provide you with a clear overview of your financial activity.
+**FinanceZero** is a Flutter mobile application designed to help you effortlessly track your personal finances. It allows you to record income and expenses using either voice or text input, and it intelligently processes this information to provide you with a clear overview of your financial activity.
 
 ## Features
 
 * **Intuitive Input:**
-
-    * **Voice Input:** Record expenses and income hands-free using your voice.
-
-    * **Text Input:** Manually enter transactions using a simple text field.
+    * **Voice Input:** Record expenses and income hands-free using your voice
+    * **Text Input:** Manually enter transactions using a simple text field
 
 * **Automated Data Processing:**
-
-    * The app uses a language model (Gemini) to automatically categorize your expenses, identify income sources, and handle split payments.
+    * The app uses Google's Gemini language model to automatically categorize your expenses and identify income sources
+    * Raw entries are analyzed and converted into structured transaction data
 
 * **Clear Financial Overview:**
+    * Summary cards display your total income, expenses, and current balance
+    * Visualizations help you understand your spending habits through intuitive charts
 
-    * The dashboard provides a summary of your daily, monthly, and yearly income and expenses.
-
-    * Visualizations help you understand your spending habits and identify trends.
-
-* **Split Payment Tracking:**
-
-    * Easily record expenses shared with others. The app calculates individual shares and tracks who owes you money.
+* **Comprehensive Insights:**
+    * Expense breakdown by category with pie charts
+    * Monthly income vs expense comparison
+    * Filtering options to view specific transaction types or categories
 
 * **Data Management:**
-
-    * Store transaction data locally.
-
-    * View, edit, and delete past transactions.
-
-    * Data backup and restore functionality.
+    * Store transaction data locally using Hive database
+    * View, edit, and delete past transactions
+    * Raw entries are stored separately from processed transactions
 
 ## How It Works
 
-1.  **Recording Transactions:**
+1. **Recording Transactions:**
+    * Enter financial information via text or voice input
+    * The app captures the details as raw entries
+    * All entries are stored locally on your device using Hive
 
-    * Use the "Add" button to record an expense or income.
+2. **AI-Powered Processing:**
+    * Click the analysis button to process your raw entries
+    * Gemini AI analyzes the data, categorizes transactions, and extracts amounts and descriptions
+    * The processed data is stored back in your device as structured transactions
 
-    * Choose voice or text input.
-
-    * The app captures the date and time automatically.
-
-    * All entries are temporarily stored locally on your device.
-
-2.  **End-of-Day Processing:**
-
-    * At the end of the day, the app sends all your recorded entries to a language model.
-
-    * The language model analyzes the data, categorizes transactions, and extracts relevant information.
-
-    * The processed data is sent back to the app in a structured format.
-
-3.  **Viewing Your Finances:**
-
-    * The dashboard displays your financial summary based on the processed data.
-
-    * Use visualizations to gain insights into your spending habits.
-
-## Target Audience
-
-FinanceZero is for anyone who wants a simple and effective way to track their personal finances without the hassle of manual categorization and calculations. It's particularly useful for:
-
-* People who want to track their spending on the go.
-
-* Users who share expenses with others.
-
-* Anyone who wants a clear overview of their financial situation.
+3. **Viewing Your Finances:**
+    * The Transactions tab displays your financial summary and detailed transaction list
+    * The Insights tab provides visual representations of your financial data
+    * Filter transactions by type (income/expense) or category for detailed analysis
 
 ## Technical Details
 
-* **Speech-to-Text:** [Name of Speech-to-Text Service, e.g., Google Cloud Speech-to-Text]
+* **Framework:** Flutter
+* **Speech-to-Text:** speech_to_text package
+* **Language Model:** Google Gemini API (gemini-1.5-flash-latest)
+* **Data Storage:** Hive Flutter (local NoSQL database)
+* **Charts:** fl_chart package
+* **Date Formatting:** intl package
 
-* **Language Model:** Google Gemini API
+## Implementation Details
 
-* **Data Storage:** [Name of Local Database, e.g., SQLite, Realm]
+* **Tab-Based Interface:**
+    * Transactions view with summary cards and detailed transaction list
+    * Insights view with category pie chart and income vs expense comparison
+    * Raw entries view for unprocessed data
 
-* **Programming Language:** [e.g., React Native, Flutter, Swift, Kotlin]
+* **Voice Recognition:**
+    * Uses the speech_to_text package for voice input
+    * Converts spoken words to text for financial entry
 
-* **UI Framework:** [e.g.,  Native, Jetpack Compose, SwiftUI]
+* **AI Analysis:**
+    * Sends raw entries to Gemini API for processing
+    * Extracts transaction type, category, amount, and description
+
+* **Data Visualization:**
+    * Pie charts for expense categories
+    * Bar charts for monthly income vs expense comparison
+
+## Setup Instructions
+
+1. Clone the repository
+2. Ensure Flutter is installed and set up on your development environment
+3. Run `flutter pub get` to install dependencies
+4. Set up your Gemini API key using the environment variable:
+   ```
+   flutter run --dart-define=GEMINI_API_KEY=YOUR_KEY
+   ```
 
 ## Future Enhancements
 
-* Budgeting features.
+* Budgeting features
+* Customizable categories
+* Date-based transaction filtering
+* Export functionality for reports
+* Recurring transaction support
+* Multi-currency support
 
-* Integration with bank accounts.
+## Dependencies
 
-* Recurring transaction support.
-
-* Customizable categories.
-
-* Cross-platform synchronization.
+* flutter_material
+* hive_flutter
+* speech_to_text
+* google_generative_ai
+* fl_chart
+* intl
 
 ## Disclaimer
 
-FinanceZero is a personal project.
+FinanceZero is a personal project aimed at simplifying personal finance tracking. It stores all data locally on your device. The app requires an active internet connection only for voice recognition and AI analysis features.
