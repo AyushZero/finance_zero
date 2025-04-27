@@ -15,6 +15,7 @@ import '../widgets/raw_entries_view.dart';
 import '../models/transaction.dart';
 import '../services/speech_service.dart';
 import '../utils/analysis_service.dart';
+import 'manual_entry_screen.dart';
 
 class TrackerHomePage extends StatefulWidget {
   const TrackerHomePage({super.key});
@@ -62,6 +63,13 @@ class _TrackerHomePageState extends State<TrackerHomePage> with TickerProviderSt
         _selectedChartTab = _insightsTabController.index;
       });
     });
+  }
+
+  void _navigateToManualEntry() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const ManualEntryScreen()),
+    );
   }
 
   void _loadData() {
@@ -329,6 +337,7 @@ class _TrackerHomePageState extends State<TrackerHomePage> with TickerProviderSt
                       _applyFilters();
                     });
                   },
+                  onAddManualTransaction: _navigateToManualEntry,
                 ),
                 InsightsView(
                   transactions: _transactions,
