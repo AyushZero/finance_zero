@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/transaction.dart';
+import 'date_range_selector.dart';
 
 class TransactionsView extends StatelessWidget {
   final List<Transaction> transactions;
@@ -14,7 +15,10 @@ class TransactionsView extends StatelessWidget {
   final VoidCallback onResetFilters;
   final Function(String?) onTypeFilterSelected;
   final Function(String?) onCategoryFilterSelected;
-  final VoidCallback onAddManualTransaction;  // New parameter
+  final VoidCallback onAddManualTransaction;
+  final DateTime? selectedStartDate;
+  final DateTime? selectedEndDate;
+  final Function(DateTime?, DateTime?) onDateRangeChanged;
 
   const TransactionsView({
     super.key,
@@ -29,7 +33,10 @@ class TransactionsView extends StatelessWidget {
     required this.onResetFilters,
     required this.onTypeFilterSelected,
     required this.onCategoryFilterSelected,
-    required this.onAddManualTransaction,  // New parameter
+    required this.onAddManualTransaction,
+    required this.selectedStartDate,
+    required this.selectedEndDate,
+    required this.onDateRangeChanged,
   });
 
 
@@ -200,6 +207,12 @@ class TransactionsView extends StatelessWidget {
                         ),
                     ],
                   ),
+                  const SizedBox(height: 12),
+                  DateRangeSelector(
+                    startDate: selectedStartDate,
+                    endDate: selectedEndDate,
+                    onDateRangeChanged: onDateRangeChanged,
+                  ),
                 ],
               ),
             ),
@@ -239,7 +252,7 @@ class TransactionsView extends StatelessWidget {
                   IconData categoryIcon = _getCategoryIcon(category);
 
                   return Dismissible(
-                    key: Key('transaction_$index'),
+                    key: UniqueKey(),
                     background: Container(
                       color: Colors.red,
                       alignment: Alignment.centerRight,
@@ -268,7 +281,7 @@ class TransactionsView extends StatelessWidget {
                               ),
                           ],
                         ),
-                        subtitle: Text('$category • ${_formatDate(DateTime.now())}'),
+                        subtitle: Text('$category • ${_formatDate(item.date)}'),
                         trailing: IconButton(
                           icon: const Icon(Icons.delete_outline),
                           onPressed: () => onDeleteTransaction(index),

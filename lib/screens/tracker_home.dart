@@ -33,6 +33,9 @@ class _TrackerHomePageState extends State<TrackerHomePage> with TickerProviderSt
   bool _isListening = false;
   String _lastWords = '';
 
+  DateTime? _selectedStartDate;
+  DateTime? _selectedEndDate;
+
   late Box<String> _entriesBox;
   late Box<String> _transactionsBox;
   List<String> _currentEntries = [];
@@ -135,6 +138,18 @@ class _TrackerHomePageState extends State<TrackerHomePage> with TickerProviderSt
           return false;
         }
 
+        // Apply date range filter if selected
+        if (_selectedStartDate != null && transaction.date.isBefore(_selectedStartDate!)) {
+          return false;
+        }
+        if (_selectedEndDate != null) {
+          // Add one day to include the end date fully
+          final endDate = _selectedEndDate!.add(const Duration(days: 1));
+          if (transaction.date.isAfter(endDate)) {
+            return false;
+          }
+        }
+
         return true;
       }).toList();
     });
@@ -144,7 +159,17 @@ class _TrackerHomePageState extends State<TrackerHomePage> with TickerProviderSt
     setState(() {
       _selectedTypeFilter = null;
       _selectedCategoryFilter = null;
+      _selectedStartDate = null;
+      _selectedEndDate = null;
       _filteredTransactions = List.from(_transactions);
+    });
+  }
+
+  void _onDateRangeChanged(DateTime? startDate, DateTime? endDate) {
+    setState(() {
+      _selectedStartDate = startDate;
+      _selectedEndDate = endDate;
+      _applyFilters();
     });
   }
 
@@ -347,6 +372,9 @@ class _TrackerHomePageState extends State<TrackerHomePage> with TickerProviderSt
                     });
                   },
                   onAddManualTransaction: _navigateToManualEntry,
+                  selectedStartDate: _selectedStartDate,
+                  selectedEndDate: _selectedEndDate,
+                  onDateRangeChanged: _onDateRangeChanged,
                 ),
                 InsightsView(
                   transactions: _transactions,

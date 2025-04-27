@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:intl/intl.dart';
 import '../main.dart';
 import '../models/transaction.dart';
 
@@ -18,6 +19,8 @@ class _ManualEntryScreenState extends State<ManualEntryScreen> {
   String _category = '';
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+  DateTime _selectedDate = DateTime.now();
+
 
   final List<String> _predefinedCategories = [
     'Food', 'Transport', 'Shopping', 'Utilities',
@@ -33,6 +36,20 @@ class _ManualEntryScreenState extends State<ManualEntryScreen> {
     super.dispose();
   }
 
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate,
+      firstDate: DateTime(2000),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null && picked != _selectedDate) {
+      setState(() {
+        _selectedDate = picked;
+      });
+    }
+  }
+
   void _saveTransaction() async {
     if (_formKey.currentState!.validate()) {
       // Save transaction to Hive
@@ -45,6 +62,7 @@ class _ManualEntryScreenState extends State<ManualEntryScreen> {
           amount: double.parse(_amountController.text),
           description: _descriptionController.text,
           originalEntry: 'Manual entry: ${_descriptionController.text}',
+          date: _selectedDate, // Include selected date
         );
 
         await transactionsBox.add(jsonEncode(transaction.toJson()));
@@ -233,6 +251,32 @@ class _ManualEntryScreenState extends State<ManualEntryScreen> {
                             return null;
                           },
                           maxLines: 2,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                //Date-picker field
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Date',
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                        ),
+                        const SizedBox(height: 8),
+                        OutlinedButton.icon(
+                          icon: const Icon(Icons.calendar_today),
+                          label: Text(DateFormat('MMMM d, yyyy').format(_selectedDate)),
+                          onPressed: () => _selectDate(context),
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                            minimumSize: const Size(double.infinity, 48),
+                          ),
                         ),
                       ],
                     ),

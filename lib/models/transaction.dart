@@ -4,6 +4,7 @@ class Transaction {
   final double? amount;
   final String? description;
   final String originalEntry;
+  final DateTime date; // New field for transaction date
 
   Transaction({
     this.type,
@@ -11,7 +12,8 @@ class Transaction {
     this.amount,
     this.description,
     required this.originalEntry,
-  });
+    DateTime? date, // Optional date parameter
+  }) : date = date ?? DateTime.now(); // Default to current date if not provided
 
   factory Transaction.fromJson(Map<String, dynamic> json) {
     return Transaction(
@@ -20,6 +22,7 @@ class Transaction {
       amount: json['amount']?.toDouble(),
       description: json['description'],
       originalEntry: json['original_entry'],
+      date: json['date'] != null ? DateTime.parse(json['date']) : DateTime.now(),
     );
   }
 
@@ -30,6 +33,7 @@ class Transaction {
       'amount': amount,
       'description': description,
       'original_entry': originalEntry,
+      'date': date.toIso8601String(), // Store date as ISO string
     };
   }
 }
