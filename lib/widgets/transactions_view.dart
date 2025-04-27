@@ -117,19 +117,19 @@ class TransactionsView extends StatelessWidget {
                           Column(
                             children: [
                               const Text('Income', style: TextStyle(color: Colors.green)),
-                              Text('\$${totalIncome.toStringAsFixed(2)}', style: const TextStyle(fontWeight: FontWeight.bold)),
+                              Text('₹${totalIncome.toStringAsFixed(2)}', style: const TextStyle(fontWeight: FontWeight.bold)),
                             ],
                           ),
                           Column(
                             children: [
                               const Text('Expenses', style: TextStyle(color: Colors.red)),
-                              Text('\$${totalExpense.toStringAsFixed(2)}', style: const TextStyle(fontWeight: FontWeight.bold)),
+                              Text('₹${totalExpense.toStringAsFixed(2)}', style: const TextStyle(fontWeight: FontWeight.bold)),
                             ],
                           ),
                           Column(
                             children: [
                               const Text('Balance'),
-                              Text('\$${balance.toStringAsFixed(2)}',
+                              Text('₹${balance.toStringAsFixed(2)}',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: balance >= 0 ? Colors.green : Colors.red
@@ -260,7 +260,7 @@ class TransactionsView extends StatelessWidget {
                             Expanded(child: Text(description, style: const TextStyle(fontWeight: FontWeight.bold))),
                             if (amount != null)
                               Text(
-                                '\$${amount.toStringAsFixed(2)}',
+                                '₹${amount.toStringAsFixed(2)}',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: typeColor,

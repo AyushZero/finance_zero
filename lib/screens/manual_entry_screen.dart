@@ -188,7 +188,7 @@ class _ManualEntryScreenState extends State<ManualEntryScreen> {
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: 'Enter amount',
-                            prefixText: '\$ ',
+                            prefixText: '₹ ',
                           ),
                           keyboardType: TextInputType.numberWithOptions(decimal: true),
                           validator: (value) {

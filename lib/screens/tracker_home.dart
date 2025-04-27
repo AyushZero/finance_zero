@@ -7,6 +7,7 @@ import 'package:speech_to_text/speech_to_text.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:intl/intl.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:provider/provider.dart';
 import '../main.dart';
 import '../widgets/input_area.dart';
 import '../widgets/transactions_view.dart';
@@ -15,6 +16,7 @@ import '../widgets/raw_entries_view.dart';
 import '../models/transaction.dart';
 import '../services/speech_service.dart';
 import '../utils/analysis_service.dart';
+import '../theme/theme_provider.dart';
 import 'manual_entry_screen.dart';
 
 class TrackerHomePage extends StatefulWidget {
@@ -287,10 +289,17 @@ class _TrackerHomePageState extends State<TrackerHomePage> with TickerProviderSt
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Finance Zero'),
         actions: [
+          IconButton(
+            icon: Icon(themeProvider.isDarkMode ? Icons.light_mode : Icons.dark_mode),
+            onPressed: themeProvider.toggleTheme,
+            tooltip: 'Toggle theme',
+          ),
           if (_currentEntries.isNotEmpty)
             IconButton(
               icon: _isAnalyzing

@@ -154,7 +154,7 @@ class InsightsView extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            'Total Spent: \$${totalSpent.toStringAsFixed(2)}',
+            'Total Spent: ₹${totalSpent.toStringAsFixed(2)}',
             style: const TextStyle(fontSize: 16),
           ),
           Expanded(
@@ -288,7 +288,7 @@ class InsightsView extends StatelessWidget {
                       getTitlesWidget: (value, meta) {
                         return Padding(
                           padding: const EdgeInsets.only(right: 8.0),
-                          child: Text('\$${value.toInt()}',
+                          child: Text('₹${value.toInt()}',
                               style: const TextStyle(fontSize: 10)),
                         );
                       },
